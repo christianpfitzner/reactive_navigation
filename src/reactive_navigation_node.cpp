@@ -1,16 +1,25 @@
-/*
- * braitenberg_node.cpp
+
+/**
+ * @file   reactive_navigation_node.cpp
+ * @author Christian Pfitzner
  *
- *  Created on: 20.12.2015
- *      Author: chris
+ * This file is the template for the tutorial
+ * on reactive navigation of the Technische
+ * Hochschule Nürnberg Georg Simon Ohm.
+ *
+ * The template is free to use for education.
  */
 
+
+// ros includes
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Point.h>
 
 
+
+// global variables
 sensor_msgs::LaserScan _scan;             //!< global variable to store scan message
 ros::Publisher         _twistPub;         //!< global variable to publish twist messages
 
@@ -47,8 +56,8 @@ float isDistanceGreat(const double& range)
 geometry_msgs::Point getCartesianCoordinate(const double& range, const double phi)
 {
    geometry_msgs::Point point;
-   point.x = range*cos(phi);
-   point.y = range*sin(phi);
+   point.x = range*::cos(phi);
+   point.y = range*::sin(phi);
    return point;
 }
 
@@ -63,7 +72,7 @@ geometry_msgs::Point getCartesianCoordinate(const double& range, const double ph
 bool isInDrivingWay(const double& range, const double& phi)
 {
    const geometry_msgs::Point p = getCartesianCoordinate(range, phi);
-   if((::fabs(p.y) > 0.25)) return false;
+   if((std::abs(p.y) > 0.25)) return false;
 
    return true;
 }
@@ -114,8 +123,8 @@ void publishTwist(void)
    * Below a given threshold the velocity is set to zero to
    * solve this problem.
    */
-   if (speed < 0.01)                 twist.linear.x  = 0.0;
-   if (fabs(twist.angular.z) < 0.05) twist.angular.z = 0.0;
+   if (speed < 0.01)                     twist.linear.x  = 0.0;
+   if (std::abs(twist.angular.z) < 0.05) twist.angular.z = 0.0;
 
 
 
